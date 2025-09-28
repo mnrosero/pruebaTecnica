@@ -1,0 +1,55 @@
+package com.example.bank.cuentas.controller;
+
+import com.example.bank.cuentas.model.Cuenta;
+import com.example.bank.cuentas.model.Movimiento;
+import com.example.bank.cuentas.service.CuentaService;
+import com.example.bank.cuentas.service.MovimientoService;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+@RestController
+@RequestMapping("/api/v1/reportes")
+public class ReporteController {
+
+    private final CuentaService cuentaService;
+    private final MovimientoService movimientoService;
+
+    public ReporteController(CuentaService cuentaService, MovimientoService movimientoService) {
+        this.cuentaService = cuentaService;
+        this.movimientoService = movimientoService;
+    }
+
+    @GetMapping("/estado-cuenta")
+    public ResponseEntity<?> estadoCuenta(
+            @RequestParam String clienteId,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaInicio,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaFin) {
+
+        List<Cuenta> cuentas = cuentaService.findByClienteId(clienteId);
+        Map<String, Object> reporte = new HashMap<>();
+        reporte.put("clienteId", clienteId);
+
+        List<Map<String, Object>> cuentasDetalle = cuentas.stream().map(cuenta -> {
+            Map<String, Object> cuentaMap = new HashMap<>();
+            cuentaMap.put("numeroCuenta", cuenta.getNumeroCuenta());
+            cuentaMap.put("tipoCuenta", cuenta.getTipoCuenta());
+            cuentaMap.put("saldoInicial", cuenta.getSaldoInicial());
+            cuentaMap.put("estado", cuenta.isEstado());
+
+            List<Movimiento> movimientos = movimientoService.findByCuentaAndFechaBetween(cuenta.getNumeroCuenta(), fechaInicio, fechaFin);
+            cuentaMap.put("movimientos", movimientos);
+
+            return cuentaMap;
+        }).toList();
+
+        reporte.put("cuentas", cuentasDetalle);
+        return ResponseEntity.ok(reporte);
+    }
+}
+

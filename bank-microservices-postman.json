@@ -1,0 +1,191 @@
+{
+  "info": {
+    "name": "Bank Microservices",
+    "_postman_id": "12345678-90ab-cdef-1234-567890abcdef",
+    "description": "Colección para probar los microservicios de clientes, cuentas y movimientos",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Clientes",
+      "item": [
+        {
+          "name": "Crear Cliente",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Jose Lema\",\n  \"genero\": \"M\",\n  \"edad\": 34,\n  \"identificacion\": \"ID001\",\n  \"direccion\": \"Otavalo sn\",\n  \"telefono\": \"098254785\",\n  \"clienteId\": \"jose.lema\",\n  \"contrasenia\": \"1234\",\n  \"estado\": true\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8081/api/v1/clientes",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8081",
+              "path": [
+                "api",
+                "v1",
+                "clientes"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Obtener Cliente por ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "http://localhost:8081/api/v1/clientes/jose.lema",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8081",
+              "path": [
+                "api",
+                "v1",
+                "clientes",
+                "jose.lema"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Cuentas",
+      "item": [
+        {
+          "name": "Crear Cuenta",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"numeroCuenta\": \"1234567890\",\n  \"tipoCuenta\": \"Ahorros\",\n  \"saldoInicial\": 500.0,\n  \"estado\": true,\n  \"cliente\": {\n    \"clienteId\": \"jose.lema\"\n  }\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8082/api/v1/cuentas",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8082",
+              "path": [
+                "api",
+                "v1",
+                "cuentas"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Listar Cuentas",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "http://localhost:8082/api/v1/cuentas",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8082",
+              "path": [
+                "api",
+                "v1",
+                "cuentas"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Obtener Cuenta por Número",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "http://localhost:8082/api/v1/cuentas/1234567890",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8082",
+              "path": [
+                "api",
+                "v1",
+                "cuentas",
+                "1234567890"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Movimientos",
+      "item": [
+        {
+          "name": "Crear Movimiento",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fecha\": \"2025-09-28T12:00:00\",\n  \"tipoMovimiento\": \"Debito\",\n  \"valor\": 100.0,\n  \"saldo\": 400.0,\n  \"cuenta\": {\n    \"numeroCuenta\": \"1234567890\"\n  }\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8083/api/v1/movimientos",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8083",
+              "path": [
+                "api",
+                "v1",
+                "movimientos"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Obtener Movimientos por Cuenta",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "http://localhost:8083/api/v1/movimientos/1234567890",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8083",
+              "path": [
+                "api",
+                "v1",
+                "movimientos",
+                "1234567890"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

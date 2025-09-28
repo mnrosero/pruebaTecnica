@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://postgres:5432/bankdb
+    username: bankuser
+    password: bankpass
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+server:
+  port: 8080
